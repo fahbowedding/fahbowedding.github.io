@@ -79,11 +79,40 @@ section{padding:60px 26px;text-align:center}
 .gal img.w{grid-column:span 2;aspect-ratio:3/2}
 #lb{position:fixed;inset:0;background:#000e;z-index:60;display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
 #lb img{max-width:100%;max-height:100%}
-.wall{columns:2;column-gap:10px;text-align:left}
-.wall .note{break-inside:avoid;margin:0 0 10px;padding:16px 14px 12px;background:#121722;border:1px solid var(--line);position:relative;font-size:15px;line-height:1.7;animation:pop .6s}
-.wall .note::before{content:"\201C";position:absolute;top:-6px;left:10px;font:400 40px 'Playfair Display';color:var(--gold);opacity:.6}
-.wall .note small{display:block;margin-top:8px;font-size:11px;color:#5d6676;letter-spacing:.08em}
-.wall .empty{column-span:all;text-align:center;color:var(--mute);font-size:14px}
+/* attach */
+.attach{display:flex;align-items:center;gap:12px;margin-top:16px;border:1px dashed var(--line);padding:12px;cursor:pointer;color:var(--mute);font-size:14px}
+.attach:hover{border-color:var(--gold);color:var(--gold)}
+.attach .ic{font-size:22px}
+.prev{margin-top:12px;position:relative;display:none}
+.prev img,.prev video{width:100%;max-height:320px;object-fit:contain;background:#000;display:block}
+.prev button{position:absolute;top:8px;right:8px;background:#000a;color:#fff;border:0;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px}
+.prog{height:3px;background:var(--line);margin-top:14px;display:none}.prog i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s}
+/* love notes book */
+.bookwrap{perspective:1800px;margin:10px auto 0;max-width:360px}
+.book{position:relative;aspect-ratio:3/4.2;transform-style:preserve-3d}
+.book::before{content:"";position:absolute;inset:6px -6px -6px 6px;background:#e9dfc9;box-shadow:0 20px 40px #000a}
+.leaf{position:absolute;inset:0;transform-origin:left center;transition:transform 1s cubic-bezier(.3,.1,.2,1),box-shadow 1s;transform-style:preserve-3d;cursor:pointer}
+.leaf.turned{transform:rotateY(-178deg);opacity:0;transition:transform 1s cubic-bezier(.3,.1,.2,1),opacity .25s .75s}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face.back{transform:rotateY(180deg);background:#efe6d2}
+.paper{background:#f6efe0 linear-gradient(90deg,#00000018,#0000 7%,#0000 93%,#0000000a);color:#2a2620;padding:26px 24px 20px;display:flex;flex-direction:column;
+  box-shadow:inset 0 0 40px #b8a07a33}
+.paper .pg{position:absolute;bottom:12px;left:0;right:0;text-align:center;font:500 11px 'Playfair Display';letter-spacing:.2em;color:#a08a63}
+.paper .media{margin:-6px -6px 14px;border:6px solid #fff;box-shadow:0 4px 12px #0003;transform:rotate(-1.2deg);background:#000;flex:none}
+.paper .media img,.paper .media iframe{display:block;width:100%;height:200px;object-fit:cover;border:0}
+.paper .txt{font:300 17px/1.9 Kanit;flex:1;overflow:auto;white-space:pre-wrap;word-break:break-word}
+.paper .txt::before{content:"\201C";display:block;font:400 54px/0.6 'Playfair Display';color:#c8a96b;margin-bottom:8px}
+.paper .when{font:italic 500 13px 'Playfair Display';color:#8d7a58;text-align:right;margin:10px 0 18px}
+.cover-pg{background:radial-gradient(circle at 50% 40%,#1d2534,#0b0e15);color:var(--text);border:1px solid #c8a96b55;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px}
+.cover-pg .frame{position:absolute;inset:14px;border:1px solid #c8a96b66}
+.cover-pg .t1{font:400 52px 'Great Vibes';color:var(--gold);line-height:1}
+.cover-pg .t2{font:500 13px 'Playfair Display';letter-spacing:.4em;margin-top:14px}
+.cover-pg .t3{font-size:13px;color:var(--mute);margin-top:30px}
+.end-pg{display:flex;align-items:center;justify-content:center;text-align:center}
+.booknav{display:flex;align-items:center;justify-content:space-between;margin:22px auto 0;max-width:360px}
+.booknav button{background:none;border:1px solid var(--gold);color:var(--gold);width:44px;height:44px;border-radius:50%;font-size:18px;cursor:pointer}
+.booknav button:disabled{opacity:.25;cursor:default}
+.booknav span{font:500 13px 'Playfair Display';letter-spacing:.2em;color:var(--mute)}
 .msgs p{animation:pop .6s}@keyframes pop{from{opacity:0;transform:translateY(8px)}}
 .msgs .when{display:block;font-size:11px;letter-spacing:.15em;color:#5d6676;margin-top:2px}
 .copy{display:none;margin-top:18px;text-align:center}
@@ -179,13 +208,25 @@ footer{padding:50px 26px 70px;text-align:center}
 
   <section class="fade">
     <h2>Wishes</h2>
+    <p style="color:var(--mute);font-size:14px;margin:-8px 0 18px">ฝากคำอวยพรพร้อมรูปหรือคลิปวิดีโอ แล้วจะถูกเก็บไว้ในสมุดอวยพรด้านล่าง</p>
     <form id="wish">
       <input type="text" name="who" placeholder="ชื่อของคุณ (บ่าวสาวเท่านั้นที่เห็น)" required>
-      <textarea name="msg" rows="3" placeholder="เขียนคำอวยพรถึงบ่าวสาว..." required style="margin-top:12px"></textarea>
-      <div style="text-align:center;margin-top:22px"><button class="btn">ส่งคำอวยพร</button></div>
+      <textarea name="msg" rows="4" placeholder="เขียนคำอวยพรถึงบ่าวสาว..." required style="margin-top:12px"></textarea>
+      <label class="attach" for="file"><span class="ic">📷</span><span id="flabel">แนบรูปภาพหรือวิดีโอ (ไม่บังคับ)<br><small>วิดีโอไม่เกิน 30 MB</small></span></label>
+      <input type="file" id="file" accept="image/*,video/*" hidden>
+      <div class="prev" id="prev"><button type="button" id="fclear" aria-label="ลบไฟล์">×</button></div>
+      <div class="prog" id="prog"><i></i></div>
+      <div style="text-align:center;margin-top:22px"><button class="btn" id="wbtn">ส่งคำอวยพร</button></div>
     </form>
     <div class="done" id="wdone">ส่งคำอวยพรแล้ว ขอบคุณค่ะ 💙</div>
-    <div class="copy" id="wcopy"><p style="color:var(--mute);font-size:14px;margin-bottom:10px">กดคัดลอก แล้วส่งคำอวยพรให้บ่าวสาวทาง LINE ได้เลยค่ะ</p><pre></pre><button type="button" class="btn solid">คัดลอกข้อความ</button></div>
+    <div class="copy" id="wcopy"><p style="color:var(--mute);font-size:14px;margin-bottom:10px">ตอนนี้ระบบยังไม่เปิดรับคำอวยพร กดคัดลอกแล้วส่งให้บ่าวสาวทาง LINE ได้เลยค่ะ</p><pre></pre><button type="button" class="btn solid">คัดลอกข้อความ</button></div>
+  </section>
+
+  <section class="fade" id="notes">
+    <div class="eyebrow">Love Notes</div>
+    <h2>สมุดอวยพร</h2>
+    <div class="bookwrap"><div class="book" id="book"></div></div>
+    <div class="booknav"><button id="bprev" aria-label="หน้าก่อน">‹</button><span id="bpage"></span><button id="bnext" aria-label="หน้าถัดไป">›</button></div>
   </section>
 
   <section class="panel gift fade">
@@ -194,12 +235,7 @@ footer{padding:50px 26px 70px;text-align:center}
     <img src="img/qr.jpg" alt="Thai QR Payment">
   </section>
 
-  <section class="fade" id="wall-sec">
-    <div class="eyebrow">Love Notes</div>
-    <h2>คำอวยพรจากแขก</h2>
-    <div class="wall" id="wall"><p class="empty">ยังไม่มีคำอวยพร มาเป็นคนแรกกันนะคะ</p></div>
-  </section>
-
+  
   <footer class="fade">
     <img src="img/end.jpg" alt="" style="width:100%;display:block;border:1px solid var(--gold);padding:7px">
     <div class="tag" style="margin-top:26px">Thank You</div>
@@ -228,16 +264,60 @@ const ENDPOINT = "";
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ago(t){const m=Math.floor((Date.now()-t)/60000);if(m<1)return'เมื่อสักครู่';if(m<60)return m+' นาทีที่แล้ว';const h=Math.floor(m/60);if(h<24)return h+' ชั่วโมงที่แล้ว';
   return new Date(t).toLocaleDateString('th-TH',{day:'numeric',month:'short'})}
-function renderWall(rows){const w=document.getElementById('wall');if(!rows.length)return;
-  w.innerHTML=rows.map(r=>`<div class="note">${esc(r.msg).replace(/\n/g,'<br>')}<small>${ago(r.t)}</small></div>`).join('')}
-async function loadWall(){if(!ENDPOINT)return;try{const r=await fetch(ENDPOINT+'?type=wishes&_='+Date.now());const j=await r.json();renderWall(j.wishes||[])}catch(e){}}
+// ----- Love Notes book -----
+let WISHES=[],PAGE=0;
+function mediaHTML(m){if(!m||!m.id)return'';const id=encodeURIComponent(m.id);
+  if(m.kind==='video')return`<div class="media"><iframe src="https://drive.google.com/file/d/${id}/preview" allow="autoplay" loading="lazy"></iframe></div>`;
+  return`<div class="media"><img src="https://drive.google.com/thumbnail?id=${id}&sz=w1000" alt="" loading="lazy"></div>`}
+function noteHTML(w,i){return`<div class="face paper">${mediaHTML(w.media)}<div class="txt">${esc(w.msg)}</div><div class="when">${w.t?ago(w.t):''}</div><div class="pg">— ${i+1} —</div></div>`}
+function renderBook(){const b=document.getElementById('book');const leaves=[];
+  const cover=`<div class="face cover-pg"><div class="frame"></div><div class="t1">Love Notes</div><div class="t2">FAH &amp; BO</div><div class="t3">${WISHES.length?WISHES.length+' คำอวยพร · แตะเพื่อเปิด':'ยังไม่มีคำอวยพร<br>มาเป็นคนแรกกันนะคะ'}</div></div>`;
+  const pages=[cover,...WISHES.map(noteHTML),`<div class="face paper end-pg"><div><div style="font:400 40px 'Great Vibes';color:#b0905a">Thank you</div><div style="font-size:14px;color:#7a6a50">ขอบคุณทุกคำอวยพรค่ะ</div></div></div>`];
+  const total=pages.length;PAGE=Math.min(PAGE,total-1);
+  b.innerHTML=pages.map((p,i)=>`<div class="leaf${i<PAGE?' turned':''}" data-i="${i}" style="z-index:${i<PAGE?i:total-i}">${p}<div class="face back"></div></div>`).join('');
+  b.querySelectorAll('.leaf').forEach(l=>l.onclick=()=>{+l.dataset.i<PAGE?go(-1):go(1)});updNav(total)}
+function go(d){const leaves=[...document.querySelectorAll('#book .leaf')],total=leaves.length,n=PAGE+d;if(n<0||n>total-1)return;
+  if(d>0){const l=leaves[PAGE];l.style.zIndex=total+1;l.classList.add('turned');setTimeout(()=>l.style.zIndex=PAGE-1,500)}
+  else{const l=leaves[n];l.style.zIndex=total+1;l.classList.remove('turned');setTimeout(()=>l.style.zIndex=total-n,1000)}
+  PAGE=n;leaves.forEach(l=>{const f=l.querySelector('iframe');if(f&&+l.dataset.i!==PAGE){const s=f.src;f.src=s}});updNav(total)}
+function updNav(total){document.getElementById('bprev').disabled=PAGE===0;document.getElementById('bnext').disabled=PAGE>=total-1;
+  document.getElementById('bpage').textContent=PAGE===0?'COVER':(PAGE>=total-1?'END':`${PAGE} / ${total-2}`)}
+document.getElementById('bprev').onclick=()=>go(-1);document.getElementById('bnext').onclick=()=>go(1);
+(()=>{let x0=null;const b=document.getElementById('book');b.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+  b.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?1:-1);x0=null})})();
+async function loadWall(){if(!ENDPOINT){renderBook();return}try{const r=await fetch(ENDPOINT+'?type=wishes&_='+Date.now());const j=await r.json();
+  const rows=j.wishes||[];if(JSON.stringify(rows)!==JSON.stringify(WISHES)){WISHES=rows;renderBook()}}catch(e){if(!document.querySelector('#book .leaf'))renderBook()}}
 async function post(data){if(!ENDPOINT)return false;try{await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)});return true}catch(e){return false}}
-loadWall();setInterval(loadWall,30000);
-document.getElementById('wish').onsubmit=async e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f)),btn=f.querySelector('button');
-  btn.disabled=true;btn.textContent='กำลังส่ง...';const ok=await post({type:'wish',...d});btn.disabled=false;btn.textContent='ส่งคำอวยพร';
-  if(ok){f.reset();const wd=document.getElementById('wdone');wd.style.display='block';setTimeout(()=>wd.style.display='none',5000);
-    const w=document.getElementById('wall');w.querySelector('.empty')?.remove();w.insertAdjacentHTML('afterbegin',`<div class="note">${esc(d.msg).replace(/\n/g,'<br>')}<small>เมื่อสักครู่</small></div>`);
-    setTimeout(loadWall,4000);return}
+loadWall();setInterval(loadWall,45000);
+
+// ----- attachment -----
+let FILE=null;const MAXV=30*1024*1024;
+const fileIn=document.getElementById('file'),prev=document.getElementById('prev');
+function clearFile(){FILE=null;fileIn.value='';prev.style.display='none';prev.querySelectorAll('img,video').forEach(e=>e.remove());document.getElementById('flabel').innerHTML='แนบรูปภาพหรือวิดีโอ (ไม่บังคับ)<br><small>วิดีโอไม่เกิน 30 MB</small>'}
+document.getElementById('fclear').onclick=clearFile;
+fileIn.onchange=async()=>{const f=fileIn.files[0];if(!f)return;clearFile();
+  if(f.type.startsWith('video/')){if(f.size>MAXV){document.getElementById('flabel').innerHTML='วิดีโอใหญ่เกิน 30 MB<br><small>ลองตัดคลิปให้สั้นลงแล้วแนบใหม่</small>';return}
+    FILE={blob:f,name:f.name,mime:f.type,kind:'video'};const v=document.createElement('video');v.src=URL.createObjectURL(f);v.controls=true;v.playsInline=true;prev.prepend(v)}
+  else if(f.type.startsWith('image/')){const blob=await shrink(f);FILE={blob,name:f.name.replace(/\.\w+$/,'')+'.jpg',mime:'image/jpeg',kind:'image'};
+    const i=document.createElement('img');i.src=URL.createObjectURL(blob);prev.prepend(i)}
+  else return;
+  prev.style.display='block';document.getElementById('flabel').textContent=f.name};
+function shrink(f){return new Promise(res=>{const img=new Image();img.onload=()=>{const M=1600,k=Math.min(1,M/Math.max(img.width,img.height));
+  const c=document.createElement('canvas');c.width=img.width*k;c.height=img.height*k;c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(b=>res(b||f),'image/jpeg',.85)};
+  img.onerror=()=>res(f);img.src=URL.createObjectURL(f)})}
+function b64(blob){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(blob)})}
+function progress(p){const g=document.getElementById('prog');g.style.display=p==null?'none':'block';g.firstElementChild.style.width=(p||0)+'%'}
+
+document.getElementById('wish').onsubmit=async e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f)),btn=document.getElementById('wbtn');
+  if(!ENDPOINT){showCopy('wcopy',`คำอวยพรถึงฟ้า & โบ้ 💙\n${d.msg}\n— ${d.who}`);return}
+  btn.disabled=true;btn.textContent=FILE?'กำลังอัปโหลด...':'กำลังส่ง...';progress(FILE?15:null);
+  const payload={type:'wish',who:d.who,msg:d.msg};
+  if(FILE){try{payload.file={name:FILE.name,mime:FILE.mime,kind:FILE.kind,data:await b64(FILE.blob)};progress(45)}catch(err){}}
+  const t=setInterval(()=>{const g=document.querySelector('#prog i');if(g&&parseFloat(g.style.width)<90)g.style.width=(parseFloat(g.style.width)+5)+'%'},600);
+  const ok=await post(payload);clearInterval(t);progress(ok?100:null);setTimeout(()=>progress(null),800);
+  btn.disabled=false;btn.textContent='ส่งคำอวยพร';
+  if(ok){f.reset();clearFile();const wd=document.getElementById('wdone');wd.style.display='block';setTimeout(()=>wd.style.display='none',6000);
+    setTimeout(loadWall,3000);setTimeout(loadWall,9000);return}
   showCopy('wcopy',`คำอวยพรถึงฟ้า & โบ้ 💙\n${d.msg}\n— ${d.who}`)};
 document.querySelectorAll('.gal img').forEach(i=>i.onclick=()=>{const lb=document.getElementById('lb');lb.querySelector('img').src=i.src;lb.style.display='flex'});
 </script>
