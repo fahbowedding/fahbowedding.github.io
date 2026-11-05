@@ -136,6 +136,12 @@ footer{padding:50px 26px 70px;text-align:center}
 .tag{font:400 44px 'Great Vibes';color:var(--gold)}
 .fade{opacity:0;transform:translateY(26px);transition:opacity 1s,transform 1s}.fade.in{opacity:1;transform:none}
 </style>
+<script>
+// Auto-update: phones/LINE keep an old copy for a while; reload once when a newer version is online.
+const BUILD="20261105115935";
+fetch("version.txt?_="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.text():"").then(v=>{v=v.trim();
+  if(v&&v!==BUILD&&sessionStorage.getItem("reloadedFor")!==v){sessionStorage.setItem("reloadedFor",v);location.reload()}}).catch(()=>{});
+</script>
 </head>
 <body>
 
@@ -145,11 +151,11 @@ footer{padding:50px 26px 70px;text-align:center}
   <button class="hint" onclick="openCard()">คลิกเพื่อเปิดการ์ด</button>
 </div>
 
-<audio id="bgm" loop preload="auto" playsinline webkit-playsinline><source src="audio/wedding-song.m4a?v=3" type="audio/mp4"><source src="audio/wedding-song.mp3?v=3" type="audio/mpeg"></audio>
+<audio id="bgm" loop preload="auto" playsinline webkit-playsinline><source src="audio/wedding-song.m4a?v=20261105115935" type="audio/mp4"><source src="audio/wedding-song.mp3?v=20261105115935" type="audio/mpeg"></audio>
 <div id="lb" onclick="this.style.display='none'"><img alt=""></div>
 <div class="wrap">
 
-  <header class="cover" style="--photo:url(img/cover.jpg)">
+  <header class="cover" style="--photo:url(img/cover.jpg?v=20261105115935)">
     <div class="eyebrow">The Wedding Invitation</div>
     <div>
       <div class="names fade">Fah <em>&amp;</em> Bo</div>
@@ -168,13 +174,13 @@ footer{padding:50px 26px 70px;text-align:center}
   <section class="fade">
     <h2>Bride &amp; Groom</h2>
     <div class="person">
-      <div class="photo"><div><img src="img/bride.jpg" alt="ฟ้า"></div></div>
+      <div class="photo"><div><img src="img/bride.jpg?v=20261105115935" alt="ฟ้า"></div></div>
       <div class="role">Bride</div><div class="pname">ฐิติมาพร ผิวคำ (ฟ้า)</div>
       <div class="par">บุตรสาวของ นายนิกร - นางวงเดือน ผิวคำ</div>
     </div>
     <div class="amp">&amp;</div>
     <div class="person" style="margin-top:20px">
-      <div class="photo"><div><img src="img/groom.jpg" alt="โบ้"></div></div>
+      <div class="photo"><div><img src="img/groom.jpg?v=20261105115935" alt="โบ้"></div></div>
       <div class="role">Groom</div><div class="pname">อนุชา พานทอง (โบ้)</div>
       <div class="par">บุตรชายของ นางประจำ พานทอง</div>
     </div>
@@ -187,7 +193,7 @@ footer{padding:50px 26px 70px;text-align:center}
     <div class="row"><small>THEME</small><b>โทนสีฟ้า</b></div>
     <div class="row"><small>VENUE</small><b>บ้านทุ่งทอง 17 หมู่ 5 ต.ทุ่งทอง<br>อ.ทรายทองวัฒนา จ.กำแพงเพชร</b></div>
     <p style="margin-top:22px"><a class="btn solid" target="_blank" rel="noopener" href="https://maps.app.goo.gl/g6jocRHc9TiwyHN77?g_st=ifm">เปิด Google Map</a></p>
-    <div class="qrbox"><img src="img/map-qr.png" alt="QR แผนที่สถานที่จัดงาน"></div>
+    <div class="qrbox"><img src="img/map-qr.png?v=20261105115935" alt="QR แผนที่สถานที่จัดงาน"></div>
     <div style="font-size:13px;color:var(--mute);margin-top:8px">สแกนเพื่อเปิดแผนที่</div>
   </section>
 
@@ -203,7 +209,7 @@ footer{padding:50px 26px 70px;text-align:center}
 
   <section class="fade" style="padding-left:0;padding-right:0">
     <h2>Gallery</h2>
-    <div class="gal"><img class="w" src="img/g1.jpg" alt=""><img src="img/g2.jpg" alt=""><img src="img/g3.jpg" alt=""><img src="img/g5.jpg" alt="" loading="lazy"><img src="img/g6.jpg" alt="" loading="lazy"><img class="w" src="img/g4.jpg" alt="" loading="lazy"><img class="t" src="img/g7.jpg" alt="" loading="lazy"></div>
+    <div class="gal"><img class="w" src="img/g1.jpg?v=20261105115935" alt=""><img src="img/g2.jpg?v=20261105115935" alt=""><img src="img/g3.jpg?v=20261105115935" alt=""><img src="img/g5.jpg?v=20261105115935" alt="" loading="lazy"><img src="img/g6.jpg?v=20261105115935" alt="" loading="lazy"><img class="w" src="img/g4.jpg?v=20261105115935" alt="" loading="lazy"><img class="t" src="img/g7.jpg?v=20261105115935" alt="" loading="lazy"></div>
   </section>
 
   
@@ -234,12 +240,12 @@ footer{padding:50px 26px 70px;text-align:center}
   <section class="panel gift fade">
     <h2>Wedding Gift</h2>
     <p style="color:var(--mute);font-size:15px;margin-bottom:20px">ขอบคุณสำหรับน้ำใจและความปรารถนาดี<br>ร่วมแสดงความยินดีได้ทาง QR ด้านล่าง</p>
-    <img src="img/qr.jpg" alt="Thai QR Payment">
+    <img src="img/qr.jpg?v=20261105115935" alt="Thai QR Payment">
   </section>
 
   
   <footer class="fade">
-    <img src="img/end.jpg" alt="" style="width:100%;display:block;border:1px solid var(--gold);padding:7px">
+    <img src="img/end.jpg?v=20261105115935" alt="" style="width:100%;display:block;border:1px solid var(--gold);padding:7px">
     <div class="tag" style="margin-top:26px">Thank You</div>
     <p style="font-size:14px;color:var(--mute)">ขออภัยหากมิได้เรียนเชิญด้วยตนเอง</p>
     <p style="margin:26px 0 12px"><a class="btn" href="tel:0955344019">โทรหาเจ้าสาว (ฟ้า)</a><br><span style="font-size:14px;color:var(--mute)">095-534-4019</span></p>
