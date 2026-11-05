@@ -175,21 +175,7 @@ footer{padding:50px 26px 70px;text-align:center}
     <div class="gal"><img class="w" src="img/g1.jpg" alt=""><img src="img/g2.jpg" alt=""><img src="img/g3.jpg" alt=""><img class="w" src="img/g4.jpg" alt=""></div>
   </section>
 
-  <section class="panel fade">
-    <h2>R.S.V.P.</h2>
-    <p style="color:var(--mute);font-size:14px;margin-top:-10px">รบกวนตอบรับเพื่อให้เราเตรียมงานได้พร้อมที่สุดค่ะ</p>
-    <form id="rsvp">
-      <label>ชื่อ *</label><input type="text" name="name" required>
-      <label>ท่านเป็นแขกฝ่ายใด *</label>
-      <div class="opt"><label><input type="radio" name="side" value="เจ้าสาว" required> ฝ่ายเจ้าสาว</label><label><input type="radio" name="side" value="เจ้าบ่าว"> ฝ่ายเจ้าบ่าว</label></div>
-      <label>ท่านสะดวกเข้าร่วมงานหรือไม่ *</label>
-      <div class="opt"><label><input type="radio" name="come" value="สะดวก" required> สะดวก</label><label><input type="radio" name="come" value="ไม่สะดวก"> ไม่สะดวก</label></div>
-      <label>จำนวนผู้ติดตาม (นับรวมตัวท่าน)</label><input type="number" name="n" min="1" value="1">
-      <div style="text-align:center;margin-top:28px"><button class="btn">ส่งคำตอบ</button></div>
-      <div class="done" id="rdone"><div style="font:400 34px 'Great Vibes'">Thank you</div>ได้รับคำตอบของคุณแล้ว ขอบคุณค่ะ</div>
-      <div class="copy" id="rcopy"><p style="color:var(--mute);font-size:14px;margin-bottom:10px">กดคัดลอก แล้วส่งให้บ่าวสาวทาง LINE หรือข้อความได้เลยค่ะ</p><pre></pre><button type="button" class="btn solid">คัดลอกข้อความ</button></div>
-    </form>
-  </section>
+  
 
   <section class="fade">
     <h2>Wishes</h2>
@@ -247,11 +233,6 @@ function renderWall(rows){const w=document.getElementById('wall');if(!rows.lengt
 async function loadWall(){if(!ENDPOINT)return;try{const r=await fetch(ENDPOINT+'?type=wishes&_='+Date.now());const j=await r.json();renderWall(j.wishes||[])}catch(e){}}
 async function post(data){if(!ENDPOINT)return false;try{await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)});return true}catch(e){return false}}
 loadWall();setInterval(loadWall,30000);
-document.getElementById('rsvp').onsubmit=async e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f)),btn=f.querySelector('button');
-  btn.disabled=true;btn.textContent='กำลังส่ง...';
-  if(await post({type:'rsvp',...d})){document.getElementById('rdone').style.display='block';btn.style.display='none';return}
-  btn.disabled=false;btn.textContent='ส่งคำตอบ';
-  showCopy('rcopy',`ตอบรับงานแต่ง ฟ้า & โบ้ 22 พ.ย. 69\nชื่อ: ${d.name}\nแขกฝ่าย: ${d.side}\nเข้าร่วม: ${d.come}\nจำนวน: ${d.n} ท่าน`)};
 document.getElementById('wish').onsubmit=async e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f)),btn=f.querySelector('button');
   btn.disabled=true;btn.textContent='กำลังส่ง...';const ok=await post({type:'wish',...d});btn.disabled=false;btn.textContent='ส่งคำอวยพร';
   if(ok){f.reset();const wd=document.getElementById('wdone');wd.style.display='block';setTimeout(()=>wd.style.display='none',5000);
