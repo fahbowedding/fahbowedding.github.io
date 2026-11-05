@@ -144,7 +144,7 @@ footer{padding:50px 26px 70px;text-align:center}
   <button class="hint" onclick="openCard()">คลิกเพื่อเปิดการ์ด</button>
 </div>
 
-<audio id="bgm" src="audio/song.mp3" loop preload="auto" playsinline></audio>
+<audio id="bgm" src="audio/song.mp3" preload="auto" playsinline></audio>
 <div id="lb" onclick="this.style.display='none'"><img alt=""></div>
 <div class="wrap">
 
@@ -252,9 +252,18 @@ const EVENT = new Date("2026-11-22T08:09:00+07:00");
 function openCard(){document.getElementById('intro').classList.add('open');document.body.style.overflow='';playMusic()}
 // ----- background music (loops; starts on load if the browser allows, otherwise on the first tap) -----
 const bgm=document.getElementById('bgm');let wantMusic=true,wasPlaying=false;
-function setBtn(){}
-function playMusic(){if(!wantMusic||!bgm.paused)return;bgm.volume=0;const p=bgm.play();if(p&&p.then)p.then(()=>{fadeTo(.8);setBtn()}).catch(()=>setBtn());}
-function fadeTo(v){const step=()=>{bgm.volume=Math.min(v,bgm.volume+.05);if(bgm.volume<v)setTimeout(step,80)};step()}
+const CHORUS=47.0, FADE=5, VOL=.85;     // start at the chorus (0:47) and fade in over 5 s
+let actx=null,gain=null,started=false;
+function setupAudio(){if(actx)return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+  actx=new AC();gain=actx.createGain();gain.gain.value=0;actx.createMediaElementSource(bgm).connect(gain).connect(actx.destination)}catch(e){actx=null;gain=null}}
+function fadeIn(){if(gain&&actx){const t=actx.currentTime;gain.gain.cancelScheduledValues(t);gain.gain.setValueAtTime(0.0001,t);gain.gain.exponentialRampToValueAtTime(VOL,t+FADE);bgm.volume=1}
+  else{bgm.volume=0;const step=()=>{bgm.volume=Math.min(VOL,bgm.volume+VOL/(FADE*10));if(bgm.volume<VOL)setTimeout(step,100)};step()}}
+function toChorus(){try{bgm.currentTime=CHORUS}catch(e){}}
+function playMusic(){if(!wantMusic)return;setupAudio();if(actx&&actx.state==='suspended')actx.resume().catch(()=>{});if(!bgm.paused)return;
+  if(!started)toChorus();
+  const p=bgm.play();if(p&&p.then)p.then(()=>{if(!started){started=true;if(bgm.currentTime<CHORUS-1)toChorus()}fadeIn()}).catch(()=>{});}
+bgm.addEventListener('loadedmetadata',()=>{if(!started)toChorus()});
+bgm.addEventListener('ended',()=>{toChorus();bgm.play().then(fadeIn).catch(()=>{})}); // loop back to the chorus
 // Browsers allow sound only after the first tap: start on any tap/click/key until it plays.
 ['pointerdown','touchstart','click','keydown'].forEach(ev=>addEventListener(ev,()=>playMusic(),{passive:true}));
 document.addEventListener('visibilitychange',()=>{if(document.hidden){wasPlaying=!bgm.paused;bgm.pause()}else if(wasPlaying&&wantMusic)playMusic()});
