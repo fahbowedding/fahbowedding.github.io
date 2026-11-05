@@ -256,7 +256,7 @@ const CHORUS=47.0, FADE=5, VOL=.85;     // start at the chorus (0:47) and fade i
 let actx=null,gain=null,started=false;
 function setupAudio(){if(actx)return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
   actx=new AC();gain=actx.createGain();gain.gain.value=0;actx.createMediaElementSource(bgm).connect(gain).connect(actx.destination)}catch(e){actx=null;gain=null}}
-function fadeIn(){if(gain&&actx){const t=actx.currentTime;gain.gain.cancelScheduledValues(t);gain.gain.setValueAtTime(0.0001,t);gain.gain.exponentialRampToValueAtTime(VOL,t+FADE);bgm.volume=1}
+function fadeIn(){if(gain&&actx){const t=actx.currentTime;gain.gain.cancelScheduledValues(t);gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(VOL,t+FADE);bgm.volume=1}
   else{bgm.volume=0;const step=()=>{bgm.volume=Math.min(VOL,bgm.volume+VOL/(FADE*10));if(bgm.volume<VOL)setTimeout(step,100)};step()}}
 function toChorus(){try{bgm.currentTime=CHORUS}catch(e){}}
 function playMusic(){if(!wantMusic)return;setupAudio();if(actx&&actx.state==='suspended')actx.resume().catch(()=>{});if(!bgm.paused)return;
