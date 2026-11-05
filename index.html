@@ -305,7 +305,7 @@ document.getElementById('bprev').onclick=()=>go(-1);document.getElementById('bne
 (()=>{let x0=null;const b=document.getElementById('book');b.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
   b.addEventListener('touchend',e=>{if(x0==null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40)go(dx<0?1:-1);x0=null})})();
 async function loadWall(){if(!ENDPOINT){renderBook();return}try{const r=await fetch(ENDPOINT+'?type=wishes&_='+Date.now());const j=await r.json();
-  const rows=j.wishes||[];if(JSON.stringify(rows)!==JSON.stringify(WISHES)){WISHES=rows;renderBook()}}catch(e){if(!document.querySelector('#book .leaf'))renderBook()}}
+  const rows=j.wishes||[];if(!document.querySelector('#book .leaf')||JSON.stringify(rows)!==JSON.stringify(WISHES)){WISHES=rows;renderBook()}}catch(e){if(!document.querySelector('#book .leaf'))renderBook()}}
 async function post(data){if(!ENDPOINT)return false;try{await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)});return true}catch(e){return false}}
 loadWall();setInterval(loadWall,45000);
 
