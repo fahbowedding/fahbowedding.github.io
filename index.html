@@ -260,7 +260,7 @@ function showCopy(id,text){const box=document.getElementById(id);box.querySelect
   const btn=box.querySelector('button');btn.onclick=async()=>{try{await navigator.clipboard.writeText(text);btn.textContent='คัดลอกแล้ว ✓'}catch(e){
     const r=document.createRange();r.selectNodeContents(box.querySelector('pre'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);btn.textContent='เลือกข้อความแล้ว กดคัดลอกได้เลย'}}}
 // ===== ที่เก็บข้อมูล: Google Apps Script Web App =====
-const ENDPOINT = "";
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbymM9JLzZiXFMb5OfAM-o7ZiLI-7Lo1_5vOD-lokPqBkDZ1Otu-xRjouFGwEBsl7qFZ/exec";
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function ago(t){const m=Math.floor((Date.now()-t)/60000);if(m<1)return'เมื่อสักครู่';if(m<60)return m+' นาทีที่แล้ว';const h=Math.floor(m/60);if(h<24)return h+' ชั่วโมงที่แล้ว';
   return new Date(t).toLocaleDateString('th-TH',{day:'numeric',month:'short'})}
