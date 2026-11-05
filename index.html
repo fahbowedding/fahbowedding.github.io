@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ฟ้า & โบ้ · การ์ดเชิญงานมงคลสมรส</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Great+Vibes&family=Kanit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07090e;--panel:#10141d;--line:#2a3140;--text:#e9e5dc;--mute:#9aa3b2;--gold:#c8a96b;--blue:#7fa6d6}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Kanit',sans-serif;font-weight:300;line-height:1.8}
+.wrap{max-width:480px;margin:0 auto;background:var(--bg);box-shadow:0 0 80px #000}
+.eyebrow{letter-spacing:.35em;font-size:11px;color:var(--gold);text-transform:uppercase;text-align:center}
+h2{font-family:'Playfair Display',serif;font-weight:500;font-size:30px;letter-spacing:.12em;text-transform:uppercase;text-align:center;margin:6px 0 24px}
+h2::after{content:"";display:block;width:44px;height:1px;background:var(--gold);margin:14px auto 0}
+section{padding:60px 26px;text-align:center}
+.btn{display:inline-block;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer;font:400 15px 'Kanit',sans-serif;letter-spacing:.08em;padding:12px 28px;text-decoration:none;transition:.25s}
+.btn:hover,.btn.solid{background:var(--gold);color:#07090e}
+
+/* intro */
+#intro{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;background:radial-gradient(circle at 50% 35%,#18202e,#07090e 70%);transition:opacity .9s .7s,visibility 0s 1.6s}
+#intro.open{opacity:0;visibility:hidden}
+.mono{font:500 64px 'Playfair Display',serif;letter-spacing:.08em;color:var(--text)}
+.mono i{font-family:'Great Vibes';color:var(--gold);font-size:44px;padding:0 6px}
+.env{position:relative;width:270px;height:180px;background:#161c28;border:1px solid var(--line);cursor:pointer;box-shadow:0 20px 50px #000}
+.env::before{content:"";position:absolute;inset:0;background:#1d2534;clip-path:polygon(0 0,50% 58%,100% 0,100% 100%,0 100%);z-index:2}
+.flap{position:absolute;inset:0 0 auto 0;height:105px;background:#232c3d;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .7s;z-index:3}
+.seal{position:absolute;left:50%;top:88px;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:radial-gradient(#e0c78d,#a8884a);color:#07090e;display:grid;place-items:center;z-index:4;font-size:20px;transition:opacity .4s}
+#intro.open .flap{transform:rotateX(180deg)}#intro.open .seal{opacity:0}
+.hint{background:none;border:1px solid var(--gold);color:var(--gold);padding:10px 26px;font:300 14px Kanit;letter-spacing:.15em;cursor:pointer}
+
+/* cover */
+.cover{min-height:100svh;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:44px 26px;text-align:center;
+  background:linear-gradient(#07090ecc,#07090e00 22%,#07090e00 48%,#07090ee6 74%,#07090e),var(--photo,none) center 30%/cover,radial-gradient(circle at 50% 30%,#1c2638,#07090e 75%)}
+.cover .names{font:700 54px/1 'Playfair Display',serif;letter-spacing:.04em;text-transform:uppercase}
+.cover .names em{font:400 46px 'Great Vibes';color:var(--gold);text-transform:none;font-style:normal}
+.cover .date{font:500 13px 'Playfair Display';letter-spacing:.35em;color:var(--gold)}
+.cover .date b{display:block;font-size:52px;letter-spacing:0;color:var(--text);line-height:1.1;margin:6px 0}
+.cover .scroll{font-size:11px;letter-spacing:.3em;color:var(--mute)}
+.invite{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.invite .lead{font-size:20px;font-weight:400}
+.invite .pair{font:500 26px 'Playfair Display',serif;color:var(--gold);margin:14px 0}
+.invite p{color:var(--mute);font-size:15px}
+
+/* people */
+.person{margin:6px 0 34px}
+.photo{width:190px;height:260px;margin:0 auto 16px;border:1px solid var(--gold);padding:7px}
+.photo>div{width:100%;height:100%;background:#151b27;display:grid;place-items:center;color:var(--mute);font-size:13px;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover}
+.role{font:400 36px 'Great Vibes';color:var(--gold);line-height:1}
+.pname{font-size:21px;font-weight:400;margin-top:4px}
+.par{color:var(--mute);font-size:14px}
+.amp{font:400 46px 'Great Vibes';color:var(--blue)}
+
+/* details */
+.panel{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.countdown{display:flex;justify-content:center;gap:8px;margin-bottom:30px}
+.countdown div{border:1px solid var(--line);padding:12px 0;width:76px}
+.countdown b{display:block;font:500 28px 'Playfair Display'}
+.countdown span{font-size:11px;color:var(--mute);letter-spacing:.15em}
+.row{margin:18px 0}
+.row small{display:block;letter-spacing:.3em;font-size:10px;color:var(--gold)}
+.row b{font-weight:400;font-size:17px}
+.qrbox{display:inline-block;margin-top:24px;background:#fff;padding:10px;border-radius:6px}
+.qrbox img{display:block;width:150px}
+
+/* schedule */
+.sch{text-align:left;max-width:340px;margin:0 auto;position:relative}
+.sch::before{content:"";position:absolute;left:84px;top:12px;bottom:12px;width:1px;background:var(--line)}
+.sch div{display:flex;gap:30px;padding:16px 0;align-items:baseline}
+.sch b{font:500 17px 'Playfair Display';color:var(--gold);width:56px;flex:none}
+.sch span{position:relative}
+.sch span::before{content:"";position:absolute;left:-34px;top:12px;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+
+/* gallery */
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px}
+.gal img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;cursor:zoom-in}
+.gal img.w{grid-column:span 2;aspect-ratio:3/2}
+#lb{position:fixed;inset:0;background:#000e;z-index:60;display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+#lb img{max-width:100%;max-height:100%}
+.wall{columns:2;column-gap:10px;text-align:left}
+.wall .note{break-inside:avoid;margin:0 0 10px;padding:16px 14px 12px;background:#121722;border:1px solid var(--line);position:relative;font-size:15px;line-height:1.7;animation:pop .6s}
+.wall .note::before{content:"\201C";position:absolute;top:-6px;left:10px;font:400 40px 'Playfair Display';color:var(--gold);opacity:.6}
+.wall .note small{display:block;margin-top:8px;font-size:11px;color:#5d6676;letter-spacing:.08em}
+.wall .empty{column-span:all;text-align:center;color:var(--mute);font-size:14px}
+.msgs p{animation:pop .6s}@keyframes pop{from{opacity:0;transform:translateY(8px)}}
+.msgs .when{display:block;font-size:11px;letter-spacing:.15em;color:#5d6676;margin-top:2px}
+.copy{display:none;margin-top:18px;text-align:center}
+.copy pre{white-space:pre-wrap;font:300 14px Kanit;background:#0b0e15;border:1px solid var(--line);padding:12px;text-align:left;color:var(--text);margin-bottom:12px}
+.tel{color:var(--gold);text-decoration:none}
+/* forms */
+form{text-align:left}
+label{display:block;margin:18px 0 6px;font-weight:400;font-size:15px}
+input[type=text],input[type=number],textarea{width:100%;font:300 16px Kanit;padding:11px 0;border:0;border-bottom:1px solid var(--mute);background:transparent;color:var(--text);outline:none}
+input:focus,textarea:focus{border-color:var(--gold)}
+.opt{display:flex;gap:22px;flex-wrap:wrap}
+.opt label{margin:0;display:flex;gap:8px;align-items:center;font-weight:300}
+input[type=radio]{accent-color:var(--gold)}
+.msgs{margin-top:22px;text-align:left}
+.msgs p{border-left:2px solid var(--gold);padding:4px 14px;margin:12px 0;font-size:15px;color:var(--mute)}
+.msgs p b{display:block;color:var(--text);font-weight:400}
+.done{display:none;text-align:center;color:var(--gold);margin-top:16px}
+.gift img{width:100%;max-width:290px;border-radius:14px}
+footer{padding:50px 26px 70px;text-align:center}
+.tag{font:400 44px 'Great Vibes';color:var(--gold)}
+.fade{opacity:0;transform:translateY(26px);transition:opacity 1s,transform 1s}.fade.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<div id="intro">
+  <div class="mono">F<i>&amp;</i>B</div>
+  <div class="env" onclick="openCard()"><div class="flap"></div><div class="seal">♥</div></div>
+  <button class="hint" onclick="openCard()">คลิกเพื่อเปิดการ์ด</button>
+</div>
+
+<div id="lb" onclick="this.style.display='none'"><img alt=""></div>
+<div class="wrap">
+
+  <header class="cover" style="--photo:url(img/cover.jpg)">
+    <div class="eyebrow">The Wedding Invitation</div>
+    <div>
+      <div class="names fade">Fah <em>&amp;</em> Bo</div>
+      <div class="date" style="margin-top:22px">SUNDAY<b>22</b>NOVEMBER 2026</div>
+      <div class="scroll" style="margin-top:34px">SCROLL ↓</div>
+    </div>
+  </header>
+
+  <section class="invite fade">
+    <div class="eyebrow" style="margin-bottom:12px">ขอเรียนเชิญร่วมงานมงคลสมรส</div>
+    <div class="lead">ระหว่าง</div>
+    <div class="pair">ฐิติมาพร (ฟ้า) &amp; อนุชา (โบ้)</div>
+    <p>ขออนุญาตใช้พื้นที่ตรงนี้เป็นสื่อกลาง ขอเรียนเชิญเพื่อน ๆ พี่ ๆ น้อง ๆ และญาติผู้ใหญ่ทุกท่าน มาร่วมแสดงความยินดีในงานแต่งงานของเรา มาร่วมเป็นพยานในงานแต่งครั้งนี้ค่ะ</p>
+  </section>
+
+  <section class="fade">
+    <h2>Bride &amp; Groom</h2>
+    <div class="person">
+      <div class="photo"><div><img src="img/bride.jpg" alt="ฟ้า"></div></div>
+      <div class="role">Bride</div><div class="pname">ฐิติมาพร ผิวคำ (ฟ้า)</div>
+      <div class="par">บุตรสาวของ นายนิกร - นางวงเดือน ผิวคำ</div>
+    </div>
+    <div class="amp">&amp;</div>
+    <div class="person" style="margin-top:20px">
+      <div class="photo"><div><img src="img/groom.jpg" alt="โบ้"></div></div>
+      <div class="role">Groom</div><div class="pname">อนุชา พานทอง (โบ้)</div>
+      <div class="par">บุตรชายของ นางประจำ พานทอง</div>
+    </div>
+  </section>
+
+  <section class="panel fade">
+    <h2>Wedding Day</h2>
+    <div class="countdown" id="cd"></div>
+    <div class="row"><small>DATE</small><b>วันอาทิตย์ที่ 22 พฤศจิกายน 2569</b></div>
+    <div class="row"><small>THEME</small><b>โทนสีฟ้า</b></div>
+    <div class="row"><small>VENUE</small><b>บ้านทุ่งทอง 17 หมู่ 5 ต.ทุ่งทอง<br>อ.ทรายทองวัฒนา จ.กำแพงเพชร</b></div>
+    <p style="margin-top:22px"><a class="btn solid" target="_blank" rel="noopener" href="https://maps.app.goo.gl/g6jocRHc9TiwyHN77?g_st=ifm">เปิด Google Map</a></p>
+    <div class="qrbox"><img src="img/map-qr.png" alt="QR แผนที่สถานที่จัดงาน"></div>
+    <div style="font-size:13px;color:var(--mute);margin-top:8px">สแกนเพื่อเปิดแผนที่</div>
+  </section>
+
+  <section class="fade">
+    <h2>Schedule</h2>
+    <div class="sch">
+      <div><b>08:09</b><span>แห่ขันหมาก</span></div>
+      <div><b>09:09</b><span>พิธีบายศรีสู่ขวัญ</span></div>
+      <div><b>10:09</b><span>พิธีผูกข้อมือ</span></div>
+      <div><b>11:30</b><span>ร่วมรับประทานอาหาร</span></div>
+    </div>
+  </section>
+
+  <section class="fade" style="padding-left:0;padding-right:0">
+    <h2>Gallery</h2>
+    <div class="gal"><img class="w" src="img/g1.jpg" alt=""><img src="img/g2.jpg" alt=""><img src="img/g3.jpg" alt=""><img class="w" src="img/g4.jpg" alt=""></div>
+  </section>
+
+  <section class="panel fade">
+    <h2>R.S.V.P.</h2>
+    <p style="color:var(--mute);font-size:14px;margin-top:-10px">รบกวนตอบรับเพื่อให้เราเตรียมงานได้พร้อมที่สุดค่ะ</p>
+    <form id="rsvp">
+      <label>ชื่อ *</label><input type="text" name="name" required>
+      <label>ท่านเป็นแขกฝ่ายใด *</label>
+      <div class="opt"><label><input type="radio" name="side" value="เจ้าสาว" required> ฝ่ายเจ้าสาว</label><label><input type="radio" name="side" value="เจ้าบ่าว"> ฝ่ายเจ้าบ่าว</label></div>
+      <label>ท่านสะดวกเข้าร่วมงานหรือไม่ *</label>
+      <div class="opt"><label><input type="radio" name="come" value="สะดวก" required> สะดวก</label><label><input type="radio" name="come" value="ไม่สะดวก"> ไม่สะดวก</label></div>
+      <label>จำนวนผู้ติดตาม (นับรวมตัวท่าน)</label><input type="number" name="n" min="1" value="1">
+      <div style="text-align:center;margin-top:28px"><button class="btn">ส่งคำตอบ</button></div>
+      <div class="done" id="rdone"><div style="font:400 34px 'Great Vibes'">Thank you</div>ได้รับคำตอบของคุณแล้ว ขอบคุณค่ะ</div>
+      <div class="copy" id="rcopy"><p style="color:var(--mute);font-size:14px;margin-bottom:10px">กดคัดลอก แล้วส่งให้บ่าวสาวทาง LINE หรือข้อความได้เลยค่ะ</p><pre></pre><button type="button" class="btn solid">คัดลอกข้อความ</button></div>
+    </form>
+  </section>
+
+  <section class="fade">
+    <h2>Wishes</h2>
+    <form id="wish">
+      <input type="text" name="who" placeholder="ชื่อของคุณ (บ่าวสาวเท่านั้นที่เห็น)" required>
+      <textarea name="msg" rows="3" placeholder="เขียนคำอวยพรถึงบ่าวสาว..." required style="margin-top:12px"></textarea>
+      <div style="text-align:center;margin-top:22px"><button class="btn">ส่งคำอวยพร</button></div>
+    </form>
+    <div class="done" id="wdone">ส่งคำอวยพรแล้ว ขอบคุณค่ะ 💙</div>
+    <div class="copy" id="wcopy"><p style="color:var(--mute);font-size:14px;margin-bottom:10px">กดคัดลอก แล้วส่งคำอวยพรให้บ่าวสาวทาง LINE ได้เลยค่ะ</p><pre></pre><button type="button" class="btn solid">คัดลอกข้อความ</button></div>
+  </section>
+
+  <section class="panel gift fade">
+    <h2>Wedding Gift</h2>
+    <p style="color:var(--mute);font-size:15px;margin-bottom:20px">ขอบคุณสำหรับน้ำใจและความปรารถนาดี<br>ร่วมแสดงความยินดีได้ทาง QR ด้านล่าง</p>
+    <img src="img/qr.jpg" alt="Thai QR Payment">
+  </section>
+
+  <section class="fade" id="wall-sec">
+    <div class="eyebrow">Love Notes</div>
+    <h2>คำอวยพรจากแขก</h2>
+    <div class="wall" id="wall"><p class="empty">ยังไม่มีคำอวยพร มาเป็นคนแรกกันนะคะ</p></div>
+  </section>
+
+  <footer class="fade">
+    <img src="img/end.jpg" alt="" style="width:100%;display:block;border:1px solid var(--gold);padding:7px">
+    <div class="tag" style="margin-top:26px">Thank You</div>
+    <p style="font-size:14px;color:var(--mute)">ขออภัยหากมิได้เรียนเชิญด้วยตนเอง</p>
+    <p style="margin:26px 0 12px"><a class="btn" href="tel:0955344019">โทรหาเจ้าสาว (ฟ้า)</a><br><span style="font-size:14px;color:var(--mute)">095-534-4019</span></p>
+    <p><a class="btn" href="tel:0952123828">โทรหาเจ้าบ่าว (โบ้)</a><br><span style="font-size:14px;color:var(--mute)">095-212-3828</span></p>
+    <p class="eyebrow" style="margin-top:34px">#FahBoWedding</p>
+  </footer>
+</div>
+
+<script>
+const EVENT = new Date("2026-11-22T08:09:00+07:00");
+function openCard(){document.getElementById('intro').classList.add('open');document.body.style.overflow=''}
+document.body.style.overflow='hidden';
+function tick(){let s=Math.floor(Math.max(0,EVENT-Date.now())/1000);
+  const v=[[Math.floor(s/86400),'DAYS'],[Math.floor(s%86400/3600),'HRS'],[Math.floor(s%3600/60),'MIN'],[s%60,'SEC']];
+  document.getElementById('cd').innerHTML=v.map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}
+tick();setInterval(tick,1000);
+const io=new IntersectionObserver(e=>e.forEach(x=>x.isIntersecting&&x.target.classList.add('in')),{threshold:.1});
+document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+function showCopy(id,text){const box=document.getElementById(id);box.querySelector('pre').textContent=text;box.style.display='block';
+  const btn=box.querySelector('button');btn.onclick=async()=>{try{await navigator.clipboard.writeText(text);btn.textContent='คัดลอกแล้ว ✓'}catch(e){
+    const r=document.createRange();r.selectNodeContents(box.querySelector('pre'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);btn.textContent='เลือกข้อความแล้ว กดคัดลอกได้เลย'}}}
+// ===== ที่เก็บข้อมูล: Google Apps Script Web App =====
+const ENDPOINT = "";
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function ago(t){const m=Math.floor((Date.now()-t)/60000);if(m<1)return'เมื่อสักครู่';if(m<60)return m+' นาทีที่แล้ว';const h=Math.floor(m/60);if(h<24)return h+' ชั่วโมงที่แล้ว';
+  return new Date(t).toLocaleDateString('th-TH',{day:'numeric',month:'short'})}
+function renderWall(rows){const w=document.getElementById('wall');if(!rows.length)return;
+  w.innerHTML=rows.map(r=>`<div class="note">${esc(r.msg).replace(/\n/g,'<br>')}<small>${ago(r.t)}</small></div>`).join('')}
+async function loadWall(){if(!ENDPOINT)return;try{const r=await fetch(ENDPOINT+'?type=wishes&_='+Date.now());const j=await r.json();renderWall(j.wishes||[])}catch(e){}}
+async function post(data){if(!ENDPOINT)return false;try{await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(data)});return true}catch(e){return false}}
+loadWall();setInterval(loadWall,30000);
+document.getElementById('rsvp').onsubmit=async e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f)),btn=f.querySelector('button');
+  btn.disabled=true;btn.textContent='กำลังส่ง...';
+  if(await post({type:'rsvp',...d})){document.getElementById('rdone').style.display='block';btn.style.display='none';return}
+  btn.disabled=false;btn.textContent='ส่งคำตอบ';
+  showCopy('rcopy',`ตอบรับงานแต่ง ฟ้า & โบ้ 22 พ.ย. 69\nชื่อ: ${d.name}\nแขกฝ่าย: ${d.side}\nเข้าร่วม: ${d.come}\nจำนวน: ${d.n} ท่าน`)};
+document.getElementById('wish').onsubmit=async e=>{e.preventDefault();const f=e.target,d=Object.fromEntries(new FormData(f)),btn=f.querySelector('button');
+  btn.disabled=true;btn.textContent='กำลังส่ง...';const ok=await post({type:'wish',...d});btn.disabled=false;btn.textContent='ส่งคำอวยพร';
+  if(ok){f.reset();const wd=document.getElementById('wdone');wd.style.display='block';setTimeout(()=>wd.style.display='none',5000);
+    const w=document.getElementById('wall');w.querySelector('.empty')?.remove();w.insertAdjacentHTML('afterbegin',`<div class="note">${esc(d.msg).replace(/\n/g,'<br>')}<small>เมื่อสักครู่</small></div>`);
+    setTimeout(loadWall,4000);return}
+  showCopy('wcopy',`คำอวยพรถึงฟ้า & โบ้ 💙\n${d.msg}\n— ${d.who}`)};
+document.querySelectorAll('.gal img').forEach(i=>i.onclick=()=>{const lb=document.getElementById('lb');lb.querySelector('img').src=i.src;lb.style.display='flex'});
+</script>
+</body>
+</html>
