@@ -79,6 +79,13 @@ section{padding:60px 26px;text-align:center}
 .gal img.w{grid-column:span 2;aspect-ratio:3/2}
 #lb{position:fixed;inset:0;background:#000e;z-index:60;display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
 #lb img{max-width:100%;max-height:100%}
+/* music */
+#music{position:fixed;right:16px;bottom:18px;z-index:55;width:48px;height:48px;border-radius:50%;border:1px solid var(--gold);background:#0b0e15cc;color:var(--gold);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 6px 18px #0008;font-size:20px;padding:0}
+#music.on .disc{animation:spin 4s linear infinite}
+#music .disc{display:inline-block;line-height:1}
+#music:not(.on)::after{content:"";position:absolute;width:30px;height:1.5px;background:var(--gold);transform:rotate(-45deg)}
+@keyframes spin{to{transform:rotate(360deg)}}
 /* attach */
 .attach{display:flex;align-items:center;gap:12px;margin-top:16px;border:1px dashed var(--line);padding:12px;cursor:pointer;color:var(--mute);font-size:14px}
 .attach:hover{border-color:var(--gold);color:var(--gold)}
@@ -144,6 +151,8 @@ footer{padding:50px 26px 70px;text-align:center}
   <button class="hint" onclick="openCard()">คลิกเพื่อเปิดการ์ด</button>
 </div>
 
+<audio id="bgm" src="audio/song.mp3" loop preload="auto" playsinline></audio>
+<button id="music" aria-label="เปิด/ปิดเพลง"><span class="disc">♫</span></button>
 <div id="lb" onclick="this.style.display='none'"><img alt=""></div>
 <div class="wrap">
 
@@ -248,7 +257,17 @@ footer{padding:50px 26px 70px;text-align:center}
 
 <script>
 const EVENT = new Date("2026-11-22T08:09:00+07:00");
-function openCard(){document.getElementById('intro').classList.add('open');document.body.style.overflow=''}
+function openCard(){document.getElementById('intro').classList.add('open');document.body.style.overflow='';playMusic()}
+// ----- background music (loops; starts on load if the browser allows, otherwise on the first tap) -----
+const bgm=document.getElementById('bgm'),mbtn=document.getElementById('music');let wantMusic=true,wasPlaying=false;
+function setBtn(){mbtn.classList.toggle('on',!bgm.paused)}
+function playMusic(){if(!wantMusic||!bgm.paused)return;bgm.volume=0;const p=bgm.play();if(p&&p.then)p.then(()=>{fadeTo(.8);setBtn()}).catch(()=>setBtn());}
+function fadeTo(v){const step=()=>{bgm.volume=Math.min(v,bgm.volume+.05);if(bgm.volume<v)setTimeout(step,80)};step()}
+mbtn.onclick=e=>{e.stopPropagation();if(bgm.paused){wantMusic=true;playMusic()}else{wantMusic=false;bgm.pause();setBtn()}};
+bgm.addEventListener('play',setBtn);bgm.addEventListener('pause',setBtn);
+['pointerdown','touchstart','keydown','scroll'].forEach(ev=>addEventListener(ev,()=>playMusic(),{once:true,passive:true}));
+document.addEventListener('visibilitychange',()=>{if(document.hidden){wasPlaying=!bgm.paused;bgm.pause()}else if(wasPlaying&&wantMusic)playMusic()});
+playMusic();
 document.body.style.overflow='hidden';
 function tick(){let s=Math.floor(Math.max(0,EVENT-Date.now())/1000);
   const v=[[Math.floor(s/86400),'DAYS'],[Math.floor(s%86400/3600),'HRS'],[Math.floor(s%3600/60),'MIN'],[s%60,'SEC']];
@@ -314,11 +333,16 @@ document.getElementById('wish').onsubmit=async e=>{e.preventDefault();const f=e.
   const payload={type:'wish',who:d.who,msg:d.msg};
   if(FILE){try{payload.file={name:FILE.name,mime:FILE.mime,kind:FILE.kind,data:await b64(FILE.blob)};progress(45)}catch(err){}}
   const t=setInterval(()=>{const g=document.querySelector('#prog i');if(g&&parseFloat(g.style.width)<90)g.style.width=(parseFloat(g.style.width)+5)+'%'},600);
-  const ok=await post(payload);clearInterval(t);progress(ok?100:null);setTimeout(()=>progress(null),800);
+  const t0=Date.now()-120000;let ok=await post(payload);
+  if(ok){ok=false;for(let k=0;k<4&&!ok;k++){await new Promise(r=>setTimeout(r,k?2500:800));ok=await confirmSaved(d.msg,t0)}}
+  clearInterval(t);progress(ok?100:null);setTimeout(()=>progress(null),800);
   btn.disabled=false;btn.textContent='ส่งคำอวยพร';
   if(ok){f.reset();clearFile();const wd=document.getElementById('wdone');wd.style.display='block';setTimeout(()=>wd.style.display='none',6000);
     setTimeout(loadWall,3000);setTimeout(loadWall,9000);return}
-  showCopy('wcopy',`คำอวยพรถึงฟ้า & โบ้ 💙\n${d.msg}\n— ${d.who}`)};
+  const wd=document.getElementById('wdone');wd.innerHTML='ส่งไม่สำเร็จ กรุณาลองกดส่งอีกครั้งค่ะ';wd.style.display='block';wd.style.color='#e08a8a';
+  setTimeout(()=>{wd.style.display='none';wd.style.color='';wd.innerHTML='ส่งคำอวยพรแล้ว ขอบคุณค่ะ 💙'},6000)};
+async function confirmSaved(msg,since){try{const r=await fetch(ENDPOINT+'?type=wishes&_='+Date.now());const j=await r.json();const rows=j.wishes||[];
+  const hit=rows.some(w=>w.msg===String(msg).slice(0,1000)&&w.t>=since);if(hit){WISHES=rows;renderBook()}return hit}catch(e){return false}}
 document.querySelectorAll('.gal img').forEach(i=>i.onclick=()=>{const lb=document.getElementById('lb');lb.querySelector('img').src=i.src;lb.style.display='flex'});
 </script>
 </body>
